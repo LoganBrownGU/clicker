@@ -1,10 +1,11 @@
 use std::{process::Command, thread, io, time::Duration};
 use tui::{
     backend::{Backend, CrosstermBackend},
-    widgets::{Widget, Block, Borders},
+    widgets::{Widget, Block, Borders, Paragraph},
     layout::{Layout, Constraint, Direction},
     Terminal,
-    Frame
+    Frame,
+    text,
 };
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode},
@@ -39,7 +40,11 @@ fn ui<B: Backend>(f: &mut Frame<B>) {
     let block = Block::default()
          .title("Block")
          .borders(Borders::ALL);
-    f.render_widget(block, chunks[0]);
+    let para = Paragraph::new("hello").block(block);
+    f.set_cursor(20, 20);
+    f.render_widget(para, chunks[0]);
+
+
     let block = Block::default()
          .title("Block 2")
          .borders(Borders::ALL);
@@ -54,16 +59,6 @@ fn main() -> Result<(), io::Error> {
     let mut terminal = Terminal::new(backend)?;
     
     Command::new("clear").spawn();
-
-    terminal.draw(|f| {
-        let size = f.size();
-        let block = Block::default()
-            .title("Block")
-            .borders(Borders::ALL);
-        f.render_widget(block, size);
-    })?;
-
-    thread::sleep(Duration::from_millis(5000));
 
     terminal.draw(|f| ui(f));
 
