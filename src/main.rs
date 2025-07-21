@@ -61,23 +61,17 @@ fn ui(f: &mut Frame<>, state: &GameState) {
     let score_block = Block::default()
         .title("Score")
         .borders(Borders::ALL)
-        .border_style(Style::default().fg(Color::White))
-        .border_type(BorderType::Rounded)
-        .style(Style::default().bg(Color::Black));
+        .border_type(BorderType::Rounded);
 
     let idle_increase_block = Block::default()
         .title("Idle increase")
         .borders(Borders::ALL)
-        .border_style(Style::default().fg(Color::White))
-        .border_type(BorderType::Rounded)
-        .style(Style::default().bg(Color::Black));
+        .border_type(BorderType::Rounded);
 
     let active_increase_block = Block::default()
         .title("Active increase")
         .borders(Borders::ALL)
-        .border_style(Style::default().fg(Color::White))
-        .border_type(BorderType::Rounded)
-        .style(Style::default().bg(Color::Black));
+        .border_type(BorderType::Rounded);
 
     f.render_widget(Paragraph::new(format_float(state.score)).block(score_block), score_chunks[0]);
     f.render_widget(Paragraph::new(format_float(state.idle_increase)).block(idle_increase_block), score_chunks[1]);
