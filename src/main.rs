@@ -18,8 +18,9 @@ struct GameState {
 }
 
 impl GameState {
-    fn update(&mut self) {
+    fn update(&mut self, do_active_increase: bool) {
         self.score += self.idle_increase; 
+        if do_active_increase { self.score += self.active_increase }
     }
 }
 
@@ -45,8 +46,8 @@ fn main() -> Result<(), io::Error> {
         });
         if result.is_err() { break; }
         
-        state.update();
-        let _ = val.as_mut().unwrap().handle_events(&mut state);
+        let _ = val.as_mut().unwrap().handle_events();
+        state.update(val.as_mut().unwrap().was_click_performed());
     }   
 
     // restore terminal

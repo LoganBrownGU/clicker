@@ -9,8 +9,9 @@ use crate::GameState;
 pub struct Ui {
     score_chunks: Vec<Rect>,
     other_row: Rect,
-    click_down: bool,
     current_area: Rect,
+    click_down: bool,
+    click_released: bool,
 }
 
 fn format_float(f: f64) -> String {
@@ -61,7 +62,7 @@ impl Ui {
     pub fn default(frame: &Frame) -> Ui {
         let (score_chunks, other_row) = get_rows(frame);
 
-        Ui { score_chunks, other_row, click_down: false, current_area: frame.area() }
+        Ui { score_chunks, other_row, current_area: frame.area(), click_down: false, click_released: false }
     }
 
     pub fn update(&mut self, frame: &mut Frame, state: &GameState) {
@@ -93,17 +94,31 @@ impl Ui {
 
     }
 
-    pub fn handle_events(&self, state: &mut GameState) -> std::io::Result<()> {
-        let timeout = Duration::from_secs_f32(1.0 / 5.0);
+    pub fn handle_events(&mut self) -> std::io::Result<()> {
+        let mut update_flags = |click_pressed: bool| {
+            if self.click_down && !click_pressed { self.click_released = true; }
+            else if click_pressed { self.click_down = true; }
+        };
+
+        let timeout = Duration::from_secs_f32(1.0 / 100.0);
         if !event::poll(timeout)? {
+            update_flags(false);
             return Ok(());
         }
+
         if let Some(key) = event::read()?.as_key_press_event() {
             match key.code {
-                KeyCode::Char(' ') | KeyCode::Enter => state.score += state.active_increase,
+                KeyCode::Enter => { update_flags(true) }, 
                 _ => {}
             }
         }
+
         Ok(())
-}
+    }
+
+    pub fn was_click_performed(&mut self) -> bool {
+        let click_performed = self.click_down && self.click_released;
+        if click_performed { self.click_down = false; self.click_released = false; }
+        return click_performed;  
+    }
 }
