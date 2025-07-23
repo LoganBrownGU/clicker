@@ -1,7 +1,10 @@
 use std::io::Stdout;
 use std::sync::mpsc::Receiver;
 
+use std::thread::sleep;
+use std::time::Duration;
 use std::{io, process::Command};
+use ratatui::crossterm::event;
 use ratatui::CompletedFrame;
 use ratatui::{
     backend::CrosstermBackend, Terminal
@@ -59,7 +62,7 @@ impl Game {
         let backend = CrosstermBackend::new(stdout);
         let mut terminal = Terminal::new(backend)?;
         
-        let _ = Command::new("clear").spawn();
+        //let _ = Command::new("clear").spawn();
 
         loop {
             self.update();
@@ -73,8 +76,9 @@ impl Game {
 
                 val.as_mut().unwrap().update(f, self.state.clone());    
             }) { break; }
+        
+            sleep(Duration::from_millis(100));
         }
-
 
         // restore terminal
         disable_raw_mode()?;
@@ -93,7 +97,7 @@ impl Game {
     fn update(&mut self) {
         self.state.update();
 
-        while let Ok(()) = self.control_rx.recv() {  
+        while let Ok(()) = self.control_rx.try_recv() {  
             self.state.score += self.state.active_increase;
         }
     }

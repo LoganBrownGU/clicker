@@ -1,6 +1,4 @@
-use std::time::Duration;
 
-use crossterm::event::{self, KeyCode};
 use ratatui::{layout::{Constraint, Direction, Layout, Rect}, widgets::{Block, BorderType, Borders, Paragraph}, Frame};
 
 use crate::game::State;
