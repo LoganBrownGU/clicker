@@ -1,20 +1,17 @@
-use std::io::Stdout;
+use std::io::{Stdout, Write};
+use std::process::exit;
 use std::sync::mpsc::Receiver;
 
 use std::thread::sleep;
 use std::time::Duration;
 use std::{io, process::Command};
-use ratatui::crossterm::event;
+use ratatui::crossterm::event::{self, Event, KeyCode};
 use ratatui::CompletedFrame;
 use ratatui::{
     backend::CrosstermBackend, Terminal
 };
-use crossterm::{
-    event::DisableMouseCapture,
-    execute,
-    terminal::{disable_raw_mode, LeaveAlternateScreen},
-};
 
+use tui_input::backend::crossterm::EventHandler;
 use crate::ui::Ui;
 
 #[derive(Clone)]
@@ -59,10 +56,9 @@ impl Game {
 
     pub fn run(mut self) -> Result<(), io::Error> {
         let stdout = io::stdout();
-        let backend = CrosstermBackend::new(stdout);
-        let mut terminal = Terminal::new(backend)?;
+        let mut terminal = ratatui::init();
         
-        //let _ = Command::new("clear").spawn();
+        let _ = Command::new("clear").spawn();
 
         loop {
             self.update();
@@ -78,16 +74,8 @@ impl Game {
             }) { break; }
         
             sleep(Duration::from_millis(100));
+                        
         }
-
-        // restore terminal
-        disable_raw_mode()?;
-        execute!(
-            terminal.backend_mut(),
-            LeaveAlternateScreen,
-            DisableMouseCapture
-        )?;
-        terminal.show_cursor()?;
 
         let _ = Command::new("clear").spawn();
 

@@ -1,5 +1,7 @@
 
-use ratatui::{layout::{Constraint, Direction, Layout, Rect}, widgets::{Block, BorderType, Borders, Paragraph}, Frame};
+use ratatui::{layout::{Constraint, Direction, Layout, Rect}, style::{Style, Stylize}, widgets::{Block, BorderType, Borders, List, ListDirection, Paragraph}, Frame};
+use tui_input::backend::crossterm::EventHandler;
+use tui_input::Input;
 
 use crate::game::State;
 
@@ -84,10 +86,23 @@ impl Ui {
             .borders(Borders::ALL)
             .border_type(BorderType::Rounded);
 
+        let click_block = Block::default()
+            .title("Enter")
+            .borders(Borders::ALL)
+            .border_type(BorderType::Double).border_type(BorderType::Rounded);
+
         frame.render_widget(Paragraph::new(format_float(*state.get_score())).block(score_block), self.score_chunks[0]);
         frame.render_widget(Paragraph::new(format_float(*state.get_idle_increase())).block(idle_increase_block), self.score_chunks[1]);
         frame.render_widget(Paragraph::new(format_float(*state.get_active_increase())).block(active_increase_block), self.score_chunks[2]);
 
+        let list = List::new(["i", "j"])
+            .block(click_block)
+            .highlight_style(Style::new().italic())
+            .highlight_symbol(">>")
+            .repeat_highlight_symbol(true)
+            .direction(ListDirection::BottomToTop);
+
+        frame.render_widget(list, self.other_row);
 
     }
 
