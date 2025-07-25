@@ -1,11 +1,6 @@
 
-use ratatui::{layout::{Constraint, Direction, Layout, Rect}, style::{Style, Stylize}, widgets::{Block, BorderType, Borders, List, ListDirection, Paragraph}, Frame};
-use tui_input::backend::crossterm::EventHandler;
-use tui_input::Input;
-
+use ratatui::{layout::{Constraint, Direction, Layout, Rect}, style::{Style, Stylize}, widgets::{Block, BorderType, Borders, List, ListDirection, ListItem, ListState, Paragraph, StatefulWidget}, Frame};
 use crate::game::State;
-
-
 
 pub struct Ui {
     score_chunks: Vec<Rect>,
@@ -61,10 +56,10 @@ impl Ui {
     pub fn default(frame: &Frame) -> Ui {
         let (score_chunks, other_row) = get_rows(frame);
 
-        Ui { score_chunks, other_row, current_area: frame.area() }
+        Ui { score_chunks, other_row, current_area: frame.area(), }
     }
 
-    pub fn update(&mut self, frame: &mut Frame, state: State) {
+    pub fn update(&mut self, frame: &mut Frame, state: &mut State) {
         let area = frame.area().clone();
         if area.width != self.current_area.width || area.height != self.current_area.height {
             self.current_area = area;
@@ -95,14 +90,18 @@ impl Ui {
         frame.render_widget(Paragraph::new(format_float(*state.get_idle_increase())).block(idle_increase_block), self.score_chunks[1]);
         frame.render_widget(Paragraph::new(format_float(*state.get_active_increase())).block(active_increase_block), self.score_chunks[2]);
 
-        let list = List::new(["i", "j"])
+        let list = List::new([
+                ListItem::from("item a"),
+                ListItem::from("item b"),
+            ])
             .block(click_block)
             .highlight_style(Style::new().italic())
             .highlight_symbol(">>")
-            .repeat_highlight_symbol(true)
-            .direction(ListDirection::BottomToTop);
+            .highlight_spacing(ratatui::widgets::HighlightSpacing::Always)
+            .repeat_highlight_symbol(true);
 
-        frame.render_widget(list, self.other_row);
+        
+        frame.render_stateful_widget(list, self.other_row, state.get_list_state());
 
     }
 

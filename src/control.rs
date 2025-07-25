@@ -2,13 +2,21 @@ use std::{process::exit, sync::mpsc::Sender, time::Duration};
 
 use ratatui::crossterm::event::{self, Event, KeyCode};
 
+pub enum Action {
+    ArrowUp,
+    ArrowDown,
+    Deselect,
+    Exit,
+    SelectUpgrade,
+    Click,
+}
 
 pub struct Control {
-    tx: Sender<()>,
+    tx: Sender<Action>,
 }
 
 impl Control {
-    pub fn default(tx: Sender<()>) -> Control {
+    pub fn default(tx: Sender<Action>) -> Control {
         Control { tx }
     }
     
@@ -25,7 +33,10 @@ impl Control {
                 match key.code {
                     KeyCode::Char('f') => is_click = true,
                     KeyCode::Char('d') => is_click = false,
-                    KeyCode::Esc | KeyCode::Char('q') => exit(0),
+                    KeyCode::Up => self.tx.send(Action::ArrowUp).unwrap(),
+                    KeyCode::Down => self.tx.send(Action::ArrowDown).unwrap(),
+                    KeyCode::Esc => self.tx.send(Action::Deselect).unwrap(),
+                    KeyCode::Char('q') => self.tx.send(Action::Exit).unwrap(),
                     _ => {},
                 }
             }
@@ -36,7 +47,7 @@ impl Control {
             }
             
             if !is_click &&  click_depressed {
-                let _ = self.tx.send(());             
+                let _ = self.tx.send(Action::Click);             
                 click_depressed = false; 
             }
         }

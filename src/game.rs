@@ -1,24 +1,19 @@
-use std::io::{Stdout, Write};
-use std::process::exit;
 use std::sync::mpsc::Receiver;
 
 use std::thread::sleep;
 use std::time::Duration;
 use std::{io, process::Command};
-use ratatui::crossterm::event::{self, Event, KeyCode};
-use ratatui::CompletedFrame;
-use ratatui::{
-    backend::CrosstermBackend, Terminal
-};
 
-use tui_input::backend::crossterm::EventHandler;
-use crate::ui::Ui;
+use ratatui::widgets::ListState;
+
+use crate::{control::Action, ui::Ui};
 
 #[derive(Clone)]
 pub struct State {
     score: f64,
     active_increase: f64, 
     idle_increase: f64,
+    list_state: ListState,
 }
 
 impl State {
@@ -36,32 +31,36 @@ impl State {
     
     pub fn get_idle_increase(&self) -> &f64 {
         &self.idle_increase
-    }  
+    } 
+
+    pub fn get_list_state(&mut self) -> &mut ListState {
+        &mut self.list_state
+    } 
 }
 
 pub struct Game {
-    state: State, 
-    control_rx: Receiver<()>,
+    state: State,
+    control_rx: Receiver<Action>,
     ui: Option<Ui>,
 }
 
 impl Game {
-    pub fn default(control_rx: Receiver<()>) -> Game {
+    pub fn default(control_rx: Receiver<Action>) -> Game {
         Game {
-            state: State { score: 0.0, active_increase: 1.0, idle_increase: 0.0 },
+            state: State { score: 0.0, active_increase: 1.0, idle_increase: 0.0, list_state: ListState::default() },
             control_rx,
             ui: None,
         }
     }
 
     pub fn run(mut self) -> Result<(), io::Error> {
-        let stdout = io::stdout();
         let mut terminal = ratatui::init();
-        
         let _ = Command::new("clear").spawn();
+        self.state.list_state.select_first();
+
 
         loop {
-            self.update();
+            if !self.update() { break; };
     
             let val = &mut self.ui;
     
@@ -70,7 +69,7 @@ impl Game {
                     *val = Some(Ui::default(f)); 
                 }
 
-                val.as_mut().unwrap().update(f, self.state.clone());    
+                val.as_mut().unwrap().update(f, &mut self.state);    
             }) { break; }
         
             sleep(Duration::from_millis(100));
@@ -79,14 +78,25 @@ impl Game {
 
         let _ = Command::new("clear").spawn();
 
+        ratatui::restore();
+
         Ok(())
     }
 
-    fn update(&mut self) {
+    fn update(&mut self) -> bool {
         self.state.update();
 
-        while let Ok(()) = self.control_rx.try_recv() {  
-            self.state.score += self.state.active_increase;
+        while let Ok(action) = self.control_rx.try_recv() { 
+            match action {
+                Action::ArrowUp => self.state.list_state.select_previous(),
+                Action::ArrowDown => self.state.list_state.select_next(),
+                Action::Deselect => todo!(),
+                Action::Exit => return false,
+                Action::SelectUpgrade => todo!(),
+                Action::Click => self.state.score += self.state.active_increase,
+            }
         }
+
+        return true;
     }
 }
