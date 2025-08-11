@@ -1,6 +1,6 @@
 
 use ratatui::{layout::{Constraint, Direction, Layout, Rect}, style::{Style, Stylize}, widgets::{Block, BorderType, Borders, List, ListDirection, ListItem, ListState, Paragraph, StatefulWidget}, Frame};
-use crate::game::State;
+use crate::game::{State, Upgrade};
 
 pub struct Ui {
     score_chunks: Vec<Rect>,
@@ -56,7 +56,7 @@ impl Ui {
     pub fn default(frame: &Frame) -> Ui {
         let (score_chunks, other_row) = get_rows(frame);
 
-        Ui { score_chunks, other_row, current_area: frame.area(), }
+        Ui { score_chunks, other_row, current_area: frame.area() }
     }
 
     pub fn update(&mut self, frame: &mut Frame, state: &mut State) {
@@ -90,12 +90,9 @@ impl Ui {
         frame.render_widget(Paragraph::new(format_float(*state.get_idle_increase())).block(idle_increase_block), self.score_chunks[1]);
         frame.render_widget(Paragraph::new(format_float(*state.get_active_increase())).block(active_increase_block), self.score_chunks[2]);
 
-        let list = List::new([
-                ListItem::from("item a"),
-                ListItem::from("item b"),
-            ])
+        let list = List::new(state.get_upgrade_list().iter().map(ToString::to_string))
             .block(click_block)
-            .highlight_style(Style::new().italic())
+            .highlight_style(Style::new().underlined())
             .highlight_symbol(">>")
             .highlight_spacing(ratatui::widgets::HighlightSpacing::Always)
             .repeat_highlight_symbol(true);

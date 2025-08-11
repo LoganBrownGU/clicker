@@ -36,6 +36,7 @@ impl Control {
                     KeyCode::Up => self.tx.send(Action::ArrowUp).unwrap(),
                     KeyCode::Down => self.tx.send(Action::ArrowDown).unwrap(),
                     KeyCode::Esc => self.tx.send(Action::Deselect).unwrap(),
+                    KeyCode::Enter => self.tx.send(Action::SelectUpgrade).unwrap(),
                     KeyCode::Char('q') => self.tx.send(Action::Exit).unwrap(),
                     _ => {},
                 }

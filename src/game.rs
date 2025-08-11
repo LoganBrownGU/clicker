@@ -9,11 +9,40 @@ use ratatui::widgets::ListState;
 use crate::{control::Action, ui::Ui};
 
 #[derive(Clone)]
+enum UpgradeType {
+    Active,
+    Idle
+}
+
+impl ToString for UpgradeType {
+    fn to_string(&self) -> String {
+        match self {
+            UpgradeType::Active => "active",
+            UpgradeType::Idle => "idle",
+        }.to_string()
+    }
+}
+
+#[derive(Clone)]
+pub struct Upgrade {
+    pub upgrade_type: UpgradeType,
+    pub level: f64,
+    pub cost: f64,
+}
+
+impl ToString for Upgrade {
+    fn to_string(&self) -> String {
+        format!(" +{}; level: {}; costs: {}", self.upgrade_type.to_string(), self.level, self.cost)
+    }
+}
+
+#[derive(Clone)]
 pub struct State {
     score: f64,
     active_increase: f64, 
     idle_increase: f64,
     list_state: ListState,
+    upgrade_list: Vec<Upgrade>,
 }
 
 impl State {
@@ -35,7 +64,23 @@ impl State {
 
     pub fn get_list_state(&mut self) -> &mut ListState {
         &mut self.list_state
+    }
+
+    pub fn get_upgrade_list(&mut self) -> &mut Vec<Upgrade> {
+        &mut self.upgrade_list
     } 
+
+    pub fn adjust_score(&mut self, d: f64) {
+        self.score += d;
+    }
+
+    pub fn increase_active_increase(&mut self, d: f64) {
+        self.active_increase += d;
+    }
+    
+    pub fn increase_idle_increase(&mut self, d: f64) {
+        self.idle_increase += d;
+    }
 }
 
 pub struct Game {
@@ -45,9 +90,33 @@ pub struct Game {
 }
 
 impl Game {
+    fn handle_upgrade(&mut self) {
+        let upgrade = match self.state.get_list_state().selected() {
+            Some(s) => self.state.get_upgrade_list().remove(s),
+            None => todo!(),
+        };
+
+        if self.state.get_score() - upgrade.cost < 0 as f64 {
+            self.state.get_upgrade_list().push(upgrade);
+            return;
+        }
+
+        match upgrade.upgrade_type {
+            UpgradeType::Active => self.state.increase_active_increase(upgrade.level),
+            UpgradeType::Idle => self.state.increase_idle_increase(upgrade.level),
+        }
+
+        self.state.adjust_score(-upgrade.cost);
+    }
+
     pub fn default(control_rx: Receiver<Action>) -> Game {
+        let upgrade_list = vec![
+            Upgrade { upgrade_type: UpgradeType::Idle, level: 0.1, cost: 10.0 },
+            Upgrade { upgrade_type: UpgradeType::Active, level: 2.0, cost: 10.0 },
+        ];
+
         Game {
-            state: State { score: 0.0, active_increase: 1.0, idle_increase: 0.0, list_state: ListState::default() },
+            state: State { score: 0.0, active_increase: 1.0, idle_increase: 0.0, list_state: ListState::default(), upgrade_list },
             control_rx,
             ui: None,
         }
@@ -72,7 +141,7 @@ impl Game {
                 val.as_mut().unwrap().update(f, &mut self.state);    
             }) { break; }
         
-            sleep(Duration::from_millis(100));
+            sleep(Duration::from_millis(10));
                         
         }
 
@@ -92,7 +161,7 @@ impl Game {
                 Action::ArrowDown => self.state.list_state.select_next(),
                 Action::Deselect => todo!(),
                 Action::Exit => return false,
-                Action::SelectUpgrade => todo!(),
+                Action::SelectUpgrade => self.handle_upgrade(),
                 Action::Click => self.state.score += self.state.active_increase,
             }
         }
