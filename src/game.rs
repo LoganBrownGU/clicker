@@ -41,10 +41,19 @@ pub struct Upgrade {
 }
 
 impl Upgrade { 
-    pub fn random() -> Upgrade {
+    pub fn random(state: Option<&State>) -> Upgrade {
         let mut rng = rand::rng();
         let level = rng.random_range(0.0..10.0);
-        let cost = rng.random_range(0.0..10.0);
+
+        let min_cost = match state {
+            Some(s) => 10f64.powf(s.score.log10().floor() + 1.0),
+            None => 0.0,
+        };
+        let max_cost = match state {
+            Some(s) => 10f64.powf(s.score.log10().floor() + 2.0),   
+            None => 0.0,
+        };
+        let cost = rng.random_range(min_cost..=max_cost);
 
         Upgrade { upgrade_type: UpgradeType::random(), level, cost }
     }
@@ -127,10 +136,13 @@ impl Game {
         }
 
         self.state.adjust_score(-upgrade.cost);
+
+        let state_clone = self.state.clone();
+        self.state.get_upgrade_list().push(Upgrade::random(Some(&state_clone)));
     }
 
     pub fn default(control_rx: Receiver<Action>) -> Game {
-        let upgrade_list = (0..3).map(|_| Upgrade::random()).collect();
+        let upgrade_list = (0..3).map(|_| Upgrade::random(None)).collect();
 
         Game {
             state: State { score: 0.0, active_increase: 1.0, idle_increase: 0.0, list_state: ListState::default(), upgrade_list },
