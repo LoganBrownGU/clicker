@@ -4,14 +4,24 @@ use std::thread::sleep;
 use std::time::Duration;
 use std::{io, process::Command};
 
+use rand::Rng;
 use ratatui::widgets::ListState;
+use strum::EnumCount;
+use strum_macros::{EnumCount, FromRepr};
 
 use crate::{control::Action, ui::Ui};
 
-#[derive(Clone)]
+#[derive(Clone, FromRepr, EnumCount, Debug, PartialEq)]
 enum UpgradeType {
     Active,
     Idle
+}
+
+impl UpgradeType {
+    pub fn random() -> UpgradeType {
+        let mut rng = rand::rng();
+        UpgradeType::from_repr(rng.random_range(0..UpgradeType::COUNT)).unwrap()
+    }
 }
 
 impl ToString for UpgradeType {
@@ -25,14 +35,24 @@ impl ToString for UpgradeType {
 
 #[derive(Clone)]
 pub struct Upgrade {
-    pub upgrade_type: UpgradeType,
+    upgrade_type: UpgradeType,
     pub level: f64,
     pub cost: f64,
 }
 
+impl Upgrade { 
+    pub fn random() -> Upgrade {
+        let mut rng = rand::rng();
+        let level = rng.random_range(0.0..10.0);
+        let cost = rng.random_range(0.0..10.0);
+
+        Upgrade { upgrade_type: UpgradeType::random(), level, cost }
+    }
+}
+
 impl ToString for Upgrade {
     fn to_string(&self) -> String {
-        format!(" +{}; level: {}; costs: {}", self.upgrade_type.to_string(), self.level, self.cost)
+        format!(" +{}; level: {:.2}; costs: {:.2}", self.upgrade_type.to_string(), self.level, self.cost)
     }
 }
 
@@ -110,10 +130,7 @@ impl Game {
     }
 
     pub fn default(control_rx: Receiver<Action>) -> Game {
-        let upgrade_list = vec![
-            Upgrade { upgrade_type: UpgradeType::Idle, level: 0.1, cost: 10.0 },
-            Upgrade { upgrade_type: UpgradeType::Active, level: 2.0, cost: 10.0 },
-        ];
+        let upgrade_list = (0..3).map(|_| Upgrade::random()).collect();
 
         Game {
             state: State { score: 0.0, active_increase: 1.0, idle_increase: 0.0, list_state: ListState::default(), upgrade_list },
