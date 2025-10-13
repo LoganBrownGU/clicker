@@ -1,0 +1,92 @@
+2025-10-13T15:57:02.361640189+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T15:57:02.361764355+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:14:01.595443096+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:14:01.595546694+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:14:01.595555607+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:14:01.595725062+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:14:01.595857632+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:15:01.881427829+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:15:01.881548907+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:15:01.881558325+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:15:01.881734390+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:15:01.881885859+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:15:03.017914075+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:15:04.477860245+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:15:05.346654410+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:16:06.108455028+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:16:06.108544127+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:16:06.108552940+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:16:06.108701914+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:16:06.108841419+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:16:07.948526595+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:16:07.948622584+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:17:56.914744045+01:00 TRACE clicker::game - None
+2025-10-13T16:17:56.914839815+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:17:56.914852951+01:00 TRACE clicker::game - None
+2025-10-13T16:17:56.914856794+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:17:56.914860159+01:00 TRACE clicker::game - None
+2025-10-13T16:17:56.914862970+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:17:56.914993934+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:17:56.915157139+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:18:03.558443491+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:18:03.558532033+01:00 TRACE clicker::game - Some(State { score: 0.0, active_increase: 1.0, idle_increase: 5.384462207097354, list_state: ListState { offset: 0, selected: Some(0) }, upgrade_list: [Upgrade { upgrade_type: Active, level: 5.631735346152245, cost: 0.0 }, Upgrade { upgrade_type: Idle, level: 3.5851562515947766, cost: 0.0 }] })
+2025-10-13T16:18:03.558561230+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:24:16.161135278+01:00 TRACE clicker::game - None
+2025-10-13T16:24:16.161235985+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:24:16.161246883+01:00 TRACE clicker::game - None
+2025-10-13T16:24:16.161250370+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:24:16.161253642+01:00 TRACE clicker::game - None
+2025-10-13T16:24:16.161256498+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:24:16.161412488+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:24:16.161555546+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:24:18.934888643+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:24:18.934963325+01:00 TRACE clicker::game - Some(State { score: 0.0, active_increase: 4.33266297249226, idle_increase: 0.0, list_state: ListState { offset: 0, selected: Some(0) }, upgrade_list: [Upgrade { upgrade_type: Active, level: 9.631746942714965, cost: 0.0 }, Upgrade { upgrade_type: Active, level: 9.228981461644938, cost: 0.0 }] })
+2025-10-13T16:24:18.935002760+01:00 TRACE clicker::game - -inf
+2025-10-13T16:24:18.935013322+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:03.892354495+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:25:03.892439850+01:00 TRACE clicker::game - Some(State { score: 0.0, active_increase: 4.33266297249226, idle_increase: 7.98729411073698, list_state: ListState { offset: 0, selected: Some(2) }, upgrade_list: [Upgrade { upgrade_type: Active, level: 9.631746942714965, cost: 0.0 }, Upgrade { upgrade_type: Active, level: 9.228981461644938, cost: 0.0 }] })
+2025-10-13T16:25:03.892457712+01:00 TRACE clicker::game - -inf
+2025-10-13T16:25:03.892463808+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:06.917242379+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:25:06.917323636+01:00 TRACE clicker::game - Some(State { score: 1813.11576313729, active_increase: 4.33266297249226, idle_increase: 11.99268924072955, list_state: ListState { offset: 0, selected: Some(2) }, upgrade_list: [Upgrade { upgrade_type: Active, level: 9.631746942714965, cost: 0.0 }, Upgrade { upgrade_type: Active, level: 9.228981461644938, cost: 0.0 }] })
+2025-10-13T16:25:06.917350863+01:00 TRACE clicker::game - 3
+2025-10-13T16:25:06.917357916+01:00 TRACE clicker::game - 10000.0..=100000.0
+2025-10-13T16:25:46.374000793+01:00 TRACE clicker::game - None
+2025-10-13T16:25:46.374113456+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:46.374124150+01:00 TRACE clicker::game - None
+2025-10-13T16:25:46.374127768+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:46.374131104+01:00 TRACE clicker::game - None
+2025-10-13T16:25:46.374133896+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:46.374268055+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:25:46.374390425+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:25:47.737189987+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:25:47.737270337+01:00 TRACE clicker::game - Some(State { score: 0.0, active_increase: 3.870173155187068, idle_increase: 0.0, list_state: ListState { offset: 0, selected: Some(1) }, upgrade_list: [Upgrade { upgrade_type: Active, level: 7.865008355229817, cost: 0.0 }, Upgrade { upgrade_type: Idle, level: 6.361349801434537, cost: 0.0 }] })
+2025-10-13T16:25:47.737297331+01:00 TRACE clicker::game - -inf
+2025-10-13T16:25:47.737307970+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:48.314312783+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:25:48.314383083+01:00 TRACE clicker::game - Some(State { score: 0.0, active_increase: 11.735181510416885, idle_increase: 0.0, list_state: ListState { offset: 0, selected: Some(0) }, upgrade_list: [Upgrade { upgrade_type: Idle, level: 6.361349801434537, cost: 0.0 }, Upgrade { upgrade_type: Idle, level: 9.44600782688951, cost: 0.0 }] })
+2025-10-13T16:25:48.314401366+01:00 TRACE clicker::game - -inf
+2025-10-13T16:25:48.314408053+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:49.476111970+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:25:49.476198380+01:00 TRACE clicker::game - Some(State { score: 0.0, active_increase: 11.735181510416885, idle_increase: 9.34708767145974, list_state: ListState { offset: 0, selected: Some(2) }, upgrade_list: [Upgrade { upgrade_type: Idle, level: 6.361349801434537, cost: 0.0 }, Upgrade { upgrade_type: Idle, level: 9.44600782688951, cost: 0.0 }] })
+2025-10-13T16:25:49.476215536+01:00 TRACE clicker::game - -inf
+2025-10-13T16:25:49.476220921+01:00 TRACE clicker::game - 0.0..=0.0
+2025-10-13T16:25:51.562844391+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:25:51.562932746+01:00 TRACE clicker::game - Some(State { score: 1504.881115105019, active_increase: 15.079211730096288, idle_increase: 9.34708767145974, list_state: ListState { offset: 0, selected: Some(2) }, upgrade_list: [Upgrade { upgrade_type: Idle, level: 6.361349801434537, cost: 0.0 }, Upgrade { upgrade_type: Idle, level: 9.44600782688951, cost: 0.0 }] })
+2025-10-13T16:25:51.562972923+01:00 TRACE clicker::game - 3
+2025-10-13T16:25:51.562979270+01:00 TRACE clicker::game - 10000.0..=100000.0
+2025-10-13T16:26:18.871749084+01:00 TRACE clicker::game - None
+2025-10-13T16:26:18.871835717+01:00 TRACE clicker::game - 0.0..=10.0
+2025-10-13T16:26:18.871847213+01:00 TRACE clicker::game - None
+2025-10-13T16:26:18.871850689+01:00 TRACE clicker::game - 0.0..=10.0
+2025-10-13T16:26:18.871854143+01:00 TRACE clicker::game - None
+2025-10-13T16:26:18.871856984+01:00 TRACE clicker::game - 0.0..=10.0
+2025-10-13T16:26:18.872027088+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:26:18.872156396+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:26:59.960603986+01:00 TRACE mio::poll - registering event source with poller: token=Token(0), interests=READABLE
+2025-10-13T16:26:59.960764090+01:00 TRACE mio::poll - registering event source with poller: token=Token(1), interests=READABLE
+2025-10-13T16:27:07.240647419+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:27:14.654880258+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:27:19.049902236+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:27:19.719583956+01:00 TRACE clicker::game - Upgrade
+2025-10-13T16:27:34.999043597+01:00 TRACE clicker::game - Upgrade

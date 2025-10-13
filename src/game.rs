@@ -4,6 +4,7 @@ use std::thread::sleep;
 use std::time::Duration;
 use std::{io, process::Command};
 
+use log::trace;
 use rand::Rng;
 use ratatui::widgets::ListState;
 use strum::EnumCount;
@@ -33,7 +34,7 @@ impl ToString for UpgradeType {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone,Debug)]
 pub struct Upgrade {
     upgrade_type: UpgradeType,
     pub level: f64,
@@ -51,7 +52,7 @@ impl Upgrade {
         };
         let max_cost = match state {
             Some(s) => 10f64.powf(s.score.log10().floor() + 2.0),   
-            None => 0.0,
+            None => 10.0,
         };
         let cost = rng.random_range(min_cost..=max_cost);
 
@@ -65,7 +66,7 @@ impl ToString for Upgrade {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone,Debug)]
 pub struct State {
     score: f64,
     active_increase: f64, 
@@ -138,6 +139,7 @@ impl Game {
         self.state.adjust_score(-upgrade.cost);
 
         let state_clone = self.state.clone();
+        trace!("Upgrade");
         self.state.get_upgrade_list().push(Upgrade::random(Some(&state_clone)));
     }
 
